@@ -1,0 +1,87 @@
+package com.qwe7002.telegram_sms
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.CodeScannerView
+import com.budiyev.android.codescanner.DecodeCallback
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.Result
+import com.qwe7002.telegram_sms.value.RESULT_CONFIG_JSON
+import com.qwe7002.telegram_sms.value.TAG
+
+class ScannerActivity : Activity() {
+    private val logTag = "${TAG}.ScannerActivity"
+    private lateinit var mCodeScanner: CodeScanner
+    public override fun onCreate(state: Bundle?) {
+        super.onCreate(state)
+        setContentView(R.layout.activity_scanner)
+
+        val scannerView = findViewById<CodeScannerView>(R.id.scanner_view)
+        // Handle window insets for edge-to-edge on ScrollView
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scanner_container)) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(insets.left, insets.top, insets.right, insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+        mCodeScanner = CodeScanner(this, scannerView)
+        mCodeScanner.formats = object : ArrayList<BarcodeFormat?>() {
+            init {
+                add(BarcodeFormat.QR_CODE)
+            }
+        }
+        mCodeScanner.decodeCallback = DecodeCallback { result: Result ->
+            runOnUiThread {
+                Log.d(
+                    logTag,
+                    "format: " + result.barcodeFormat.toString() + " content: " + result.text
+                )
+                if (!jsonValidate(result.text)) {
+                    Toast.makeText(
+                        this@ScannerActivity,
+                        "The QR code is not legal",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    mCodeScanner.startPreview()
+                    return@runOnUiThread
+                }
+                val intent = Intent().putExtra("config_json", result.text)
+                setResult(RESULT_CONFIG_JSON, intent)
+                finish()
+            }
+        }
+        scannerView.setOnClickListener { mCodeScanner.startPreview() }
+    }
+
+
+    public override fun onResume() {
+        super.onResume()
+        mCodeScanner.startPreview()
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        mCodeScanner.releaseResources()
+    }
+
+    private fun jsonValidate(jsonStr: String): Boolean {
+        val jsonElement: JsonElement?
+        try {
+            jsonElement = JsonParser.parseString(jsonStr)
+        } catch (e: Exception) {
+            Log.e(logTag, "JSON parsing error: ${e.message}",e)
+            return false
+        }
+        if (jsonElement == null) {
+            return false
+        }
+        return jsonElement.isJsonObject
+    }
+}
