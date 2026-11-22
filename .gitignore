@@ -12,6 +12,10 @@ libs
 # Built application files
 *.apk
 *.ap_
+*.jks
+*.keystore
+*.p12
+*.pfx
 # Files for the Dalvik VM
 *.dex
 # Java class files

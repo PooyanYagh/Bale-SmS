@@ -23,7 +23,7 @@ class NetworkTest {
 
     @Test
     fun normalize_plainHost_getsHttpsScheme() {
-        assertEquals("https://api.telegram.org", Network.normalizeApiBase("api.telegram.org"))
+        assertEquals("https://tapi.bale.ai", Network.normalizeApiBase("tapi.bale.ai"))
     }
 
     @Test
@@ -61,8 +61,8 @@ class NetworkTest {
     @Test
     fun normalize_trimsWhitespace() {
         assertEquals(
-            "https://api.telegram.org",
-            Network.normalizeApiBase("  api.telegram.org  ")
+            "https://tapi.bale.ai",
+            Network.normalizeApiBase("  tapi.bale.ai  ")
         )
     }
 
@@ -76,8 +76,8 @@ class NetworkTest {
 
     @Test
     fun normalize_blankFallsBackToCloud() {
-        assertEquals("https://api.telegram.org", Network.normalizeApiBase(""))
-        assertEquals("https://api.telegram.org", Network.normalizeApiBase("   "))
+        assertEquals("https://tapi.bale.ai", Network.normalizeApiBase(""))
+        assertEquals("https://tapi.bale.ai", Network.normalizeApiBase("   "))
     }
 
     // --- buildUrl ------------------------------------------------------------
@@ -85,8 +85,8 @@ class NetworkTest {
     @Test
     fun buildUrl_default() {
         assertEquals(
-            "https://api.telegram.org/bot$token/getMe",
-            Network.buildUrl("api.telegram.org", token, "getMe")
+            "https://tapi.bale.ai/bot$token/getMe",
+            Network.buildUrl("tapi.bale.ai", token, "getMe")
         )
     }
 
@@ -111,25 +111,18 @@ class NetworkTest {
     // --- migrationForApiChange ----------------------------------------------
 
     @Test
-    fun migration_cloudToCustom_logsOutOfCloud() {
-        val m = Network.migrationForApiChange("api.telegram.org", "botapi.qwe7002.dev")
-        assertEquals("https://api.telegram.org", m?.base)
-        assertEquals("logOut", m?.method)
+    fun migration_cloudToCustom_isNotAttemptedForBale() {
+        assertNull(Network.migrationForApiChange("tapi.bale.ai", "botapi.qwe7002.dev"))
     }
 
     @Test
-    fun migration_customToCloud_logsOutOfCustom() {
-        val m = Network.migrationForApiChange("botapi.qwe7002.dev", "api.telegram.org")
-        assertEquals("https://botapi.qwe7002.dev", m?.base)
-        assertEquals("logOut", m?.method)
+    fun migration_customToCloud_isNotAttemptedForBale() {
+        assertNull(Network.migrationForApiChange("botapi.qwe7002.dev", "tapi.bale.ai"))
     }
 
-    // Between two local servers the bot instance must be closed, not logged out.
     @Test
-    fun migration_customToOtherCustom_closesOldCustom() {
-        val m = Network.migrationForApiChange("a.example.com", "b.example.com")
-        assertEquals("https://a.example.com", m?.base)
-        assertEquals("close", m?.method)
+    fun migration_customToOtherCustom_isNotAttemptedForBale() {
+        assertNull(Network.migrationForApiChange("a.example.com", "b.example.com"))
     }
 
     @Test
@@ -140,7 +133,7 @@ class NetworkTest {
     // Cosmetic edits (adding a scheme / trailing slash) must not trigger a migration.
     @Test
     fun migration_sameServerAfterNormalization_returnsNull() {
-        assertNull(Network.migrationForApiChange("api.telegram.org", "https://api.telegram.org/"))
+        assertNull(Network.migrationForApiChange("tapi.bale.ai", "https://tapi.bale.ai/"))
     }
 
     // --- live validation (opt-in, reads token from the environment) ----------

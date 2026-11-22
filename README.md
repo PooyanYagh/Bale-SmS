@@ -1,160 +1,114 @@
 # Bale-SMS
 
-> An independent Bale Bot API adaptation of Telegram-SMS for Android 6.0 and later.
+[![Android 6.0+](https://img.shields.io/badge/Android-6.0%2B-3DDC84?logo=android&logoColor=white)](https://developer.android.com/about/versions/marshmallow)
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](LICENSE)
 
-Bale-SMS forwards SMS messages and call/battery events from an Android device to an
-authorized [Bale](https://bale.ai/) bot chat. It is derived from
-[telegram-sms/telegram-sms](https://github.com/telegram-sms/telegram-sms) and retains
-the upstream BSD 3-Clause license and notices.
+**فارسی** | [English](#english)
 
-## Important security notes
+## Bale-SMS چیست؟
 
-- Configure a dedicated Bale bot token and an authorized chat ID in the app; never
-  commit either value to this repository.
-- SMS forwarding and remote commands expose private device data. Only authorize a
-  chat you control and protect the device with a screen lock.
-- The app requires sensitive Android permissions to read/forward SMS and call events.
+Bale-SMS برنامه‌ای برای یک گوشی اندرویدی دارای سیم‌کارت است که پیامک‌های دریافتی را به ربات شخصی شما در پیام‌رسان بله می‌فرستد. برای نمونه، اگر یک گوشی دوم یا یک خط کاری دارید که همیشه کنارتان نیست، می‌توانید پیامک‌های آن را در بله ببینید.
 
-<div align="center">
-<img src="https://github.com/user-attachments/assets/7a283d15-52fe-42cd-a782-4984427db234" alt="Bale-SMS">
-</div>
+> این برنامه فقط باید برای دستگاه، سیم‌کارت و رباتی استفاده شود که مالک آن‌ها هستید یا اجازهٔ صریح استفاده از آن‌ها را دارید.
 
-![Min Android Version](https://img.shields.io/badge/Min%20Android%20Version-6.0-orange.svg?style=flat-square)
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg?style=flat-square)](https://github.com/telegram-sms/telegram-sms/blob/master/LICENSE)
-[![GitHub Releases](https://img.shields.io/github/downloads/telegram-sms/telegram-sms/latest/app-release.apk?style=flat-square)](https://github.com/telegram-sms/telegram-sms/releases/latest)
-![GitHub Sponsors](https://img.shields.io/github/sponsors/qwe7002?style=flat-square)
+## دانلود و نصب
 
+[**دانلود آخرین نسخه**](https://github.com/PooyanYagh/Bale-SmS/releases/latest)
 
-## News, Questions and Contributions
+دانلود مستقیم نسخهٔ 1.0.0: [Bale-SMS-v1.0.0.apk](https://github.com/PooyanYagh/Bale-SmS/releases/download/v1.0.0/Bale-SMS-v1.0.0.apk)
 
-You can follow the Telegram channel Telegram SMS Change Log for the latest news. [English](https://t.me/tg_sms_changelog_eng), [简体中文](https://t.me/tg_sms_changelog)
+1. فایل APK را از صفحهٔ Release دانلود کنید.
+2. آن را روی گوشی دارای سیم‌کارت نصب کنید. اندروید ممکن است برای نصب از مرورگر یا فایل‌منیجر، مجوز «Install unknown apps» بخواهد.
+3. برنامه را باز کنید و مجوزهای درخواستی را فقط در صورت نیاز تأیید کنید.
 
-**For bug reports and feature requests, please use this repository's GitHub Issues.**
+حداقل نسخهٔ پشتیبانی‌شده: **Android 6.0 (API 23)**.
 
-The primary language used for commit messages is Simplified Chinese. However, you're welcome to use English in commit messages when making contributions.
+## راه‌اندازی سریع
 
-The original Telegram-SMS configuration website is not used by Bale-SMS.
+1. در بله یک ربات بسازید و **Bot Token** آن را دریافت کنید. راهنمای رسمی: [docs.bale.ai](https://docs.bale.ai/).
+2. در بله به ربات خود پیام بدهید؛ برای نمونه `/start`.
+3. در Bale-SMS مقدار Bot Token را وارد کنید.
+4. از گزینهٔ **Get recent chat ID** در برنامه استفاده کنید و Chat ID گفت‌وگوی خودتان را انتخاب کنید؛ سپس تنظیمات را ذخیره کنید.
+5. در صورت نیاز، آدرس API را روی مقدار پیش‌فرض `tapi.bale.ai` نگه دارید.
+6. برای اطمینان، یک پیامک آزمایشی به گوشی بفرستید و رسیدن آن به بله را بررسی کنید.
 
-## Get the Right Version
+## امکانات
 
-**Warning**: Bale-SMS uses its own Android application ID, so it can be installed alongside Telegram-SMS. Release APK signing and update compatibility depend on the signing key used for a release.
+- انتقال پیامک‌های دریافتی به ربات بله؛ این قابلیت روی دستگاه واقعی آزمایش شده است.
+- ارسال اعلان تماس و رویدادهای باتری، مشروط به مجوزهای اندروید و سازگاری دستگاه.
+- پشتیبانی از پیامک فارسی، Unicode و پیامک‌های چندبخشی.
+- پشتیبانی از دو سیم‌کارت در بخش‌های پشتیبانی‌شدهٔ اندروید.
+- امکان دریافت فرمان از گفت‌وگوی مجاز؛ فرمان‌های حساس نیازمند تنظیم و تأیید هستند.
+- تلاش مجدد ارسال هنگام خطای شبکه.
 
-[Latest Release Download](https://github.com/telegram-sms/telegram-sms/releases/latest)
+### وضعیت آزمون v1.0.0
 
-[Pre-release Version](https://github.com/telegram-sms/telegram-sms-nightly)
+| قابلیت | وضعیت |
+| --- | --- |
+| ارسال پیامک دریافتی به بله | **تأییدشده روی دستگاه واقعی** |
+| اتصال و ارسال پیام از طریق Bale Bot API | **تأییدشده** |
+| اعلان تماس، فرمان از راه دور، USSD، چندسیم‌کارته و پایداری پس از راه‌اندازی مجدد | **نیازمند آزمون بیشتر** |
 
-**NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK!**
+## مجوزها و حریم خصوصی
 
-**[Telegram SMS compat](https://github.com/telegram-sms/telegram-sms-compat)** - For older Android devices (Android 5.0 or lower). [![Github Release](https://img.shields.io/github/downloads/telegram-sms/telegram-sms-compat/latest/app-release.apk?style=flat-square)](https://github.com/telegram-sms/telegram-sms-compat/releases/latest)
+برای عملکردهای انتخابی برنامه، مجوزهایی مانند SMS، وضعیت تلفن، گزارش تماس، اعلان‌ها، اینترنت و اجرای پس‌زمینه لازم است. متن پیامک و اطلاعات رویدادها برای ارسال به ربات بله‌ای که خودتان پیکربندی می‌کنید استفاده می‌شود.
 
+- Bot Token مانند گذرواژه است؛ آن را در تصویر، Issue، پیام عمومی یا مخزن Git قرار ندهید.
+- فقط Chat ID خودتان را مجاز کنید.
+- پیش از واگذاری یا فروش گوشی، تنظیمات برنامه و داده‌های آن را پاک کنید.
+- برای اجرای پایدار، ممکن است لازم باشد محدودیت بهینه‌سازی باتری برنامه را در تنظیمات گوشی کاهش دهید.
 
-## Features
+## گزارش خطا و مشارکت
 
-- Forward SMS text messages to Bale as a bot;
-- Notification regarding missed or incoming calls;
-- Notification regarding device battery power changes;
-- Carbon Copy - a new way to configure the forward destination(e.g. bark, pushdeer, gotify, etc.).
-- Remote control via chat command or SMS.
-- Configure the Bale Bot API address, token, and authorized chat ID.
+برای گزارش خطا یا پیشنهاد، لطفاً یک [Issue](https://github.com/PooyanYagh/Bale-SmS/issues) باز کنید و مدل گوشی، نسخهٔ اندروید، مراحل بازتولید و لاگِ بدون اطلاعات حساس را بنویسید. Pull Request نیز خوش‌آمد است.
 
-The default Bot API base address is `https://tapi.bale.ai`.
+## اعتبار و مجوز
 
-## Permission
+Bale-SMS اقتباسی مستقل از پروژهٔ [Telegram-SMS](https://github.com/telegram-sms/telegram-sms) است که برای استفاده از Bale Bot API سازگار شده است. حقوق نویسندگان اصلی و متن کامل مجوز [BSD 3-Clause](LICENSE) حفظ شده‌اند.
 
-This app requires following permissions to work properly:
+---
 
-- SMS: To read and send text messages.
-- Phone: Check whether it is a dual SIM-Card phone, the SIM status and its identification digits.
-- Call phone: Execute the USSD code.
-- Call log: Read incoming numbers.
-- Camera: Scan the QR code and quickly enter the Bot Token.
-- Notification access: Listen for notification messages.
+<a id="english"></a>
 
-You can set this APP as the default SMS APP, which will stop popping up SMS notifications and set all received SMS as "read" on the phone.
+## English
 
-## User Manual
+### What is Bale-SMS?
 
-- [English](https://telegram-sms.com/user-manual.html)
-- [简体中文](https://telegram-sms.com/zh_cn/user-manual.html)
-- [繁體中文](https://telegram-sms.com/zh_tw/user-manual.html)
-- [日本語](https://telegram-sms.com/ja_jp/user-manual.html)
-- [Español](https://telegram-sms.com/es_es/user-manual.html)
-- [Русский](https://telegram-sms.com/ru_ru/user-manual.html)
+Bale-SMS is an Android app for a phone with a SIM card. It forwards incoming SMS messages to your personal bot on Bale. It is useful for a second phone or work line that is not always with you.
 
-## Licenses
+Use it only with devices, SIM cards, and bots that you own or are explicitly authorized to use.
 
-Telegram-SMS is licensed under [BSD 3-Clause License](https://get.telegram-sms.com/license).
+### Download and install
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fqwe7002%2Ftelegram-sms.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fqwe7002%2Ftelegram-sms?ref=badge_large)
+[**Download the latest release**](https://github.com/PooyanYagh/Bale-SmS/releases/latest)
 
-CodeauxLib is licensed under [BSD 3-Clause License](https://github.com/telegram-sms/telegram-sms/blob/master/codeauxlib-license/LICENSE).
+Direct download for v1.0.0: [Bale-SMS-v1.0.0.apk](https://github.com/PooyanYagh/Bale-SmS/releases/download/v1.0.0/Bale-SMS-v1.0.0.apk)
 
-Artwork Use free fonts licensed by the whole society: [Refrigerator Deluxe](https://fonts.adobe.com/fonts/refrigerator-deluxe) [站酷庆科黄油体](https://www.zcool.com.cn/work/ZMTg5MDEyMDQ=.html)
+1. Download the APK from the Release page.
+2. Install it on the Android phone containing the SIM card. Android may ask you to allow installation from the browser or file manager.
+3. Open the app and grant only the permissions required for the features you enable.
 
-Copyright of the artwork belongs to [@walliant](https://www.pixiv.net/member.php?id=5600144). Licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Minimum supported version: **Android 6.0 (API 23)**.
 
-Download resource file: [Google Drive](https://drive.google.com/drive/folders/1Rg_MaJk0dnIN5GtKKmfvHPPCxjys8A0A?usp=drive_link)
+### Quick setup
 
-Character set：
+1. Create a Bale bot and obtain its **Bot Token**. See the official [Bale documentation](https://docs.bale.ai/).
+2. Send your bot a message in Bale, such as `/start`.
+3. Enter the Bot Token in Bale-SMS.
+4. Use **Get recent chat ID**, select your chat, and save the settings.
+5. Leave the default API address as `tapi.bale.ai` unless you have a supported alternative.
+6. Send a test SMS to the phone and verify that it arrives in Bale.
 
-- Name: Fay (菲, フェイ)
-- Type: Gynoid
-- Birthday: 1st October, 2018
-- Zodiac sign: Libra
-- Habits: Eat sweets, Maid dress, Listen Heavy metal music
+### Verified features and test status
 
-## Acknowledgements
+- Incoming SMS forwarding to Bale was verified on a real device.
+- Bale Bot API connection and message delivery were verified.
+- Call notifications, remote commands, USSD, dual-SIM behavior, and restart resilience require further device validation.
 
-This APP uses the following open source libraries:
+### Privacy and security
 
-- [okhttp](https://github.com/square/okhttp)
-- [Gson](https://github.com/google/gson)
-- [CodeauxLib](https://github.com/telegram-sms/CodeauxLibPortable)
-- [AwesomeQRCode](https://github.com/SumiMakito/AwesomeQRCode)
-- [code-scanner](https://github.com/yuriy-budiyev/code-scanner)
-- [MMKV](https://github.com/Tencent/MMKV)
+Bot tokens are credentials. Never share them in screenshots, issues, public messages, or this repository. Authorize only your own chat ID, and remove the app's configuration before giving the phone to someone else.
 
-The creation of this APP would not be possible without the help from the following people:
+### Credits and license
 
-- [@SumiMakito](https://github.com/SumiMakito) ([Donate](https://paypal.me/makito))
-- [@zsxsoft](https://github.com/zsxsoft)
-- [@walliant](https://www.pixiv.net/member.php?id=5600144) ([weibo](https://www.weibo.com/p/1005053186671274))
-
-I would also like to thank the following people for their hard work to localise this project:
-
-- English
-    - [@tangbao](https://github.com/tangbao)
-    - [@jixunmoe](https://github.com/jixunmoe) ([Donate](https://paypal.me/jixun))
-    - [@ous50](https://github.com/ous50)
-- Japanese
-    - [@Lollycc](https://github.com/lollycc)
-    - [@AisakaMk2](https://github.com/AisakaMk2)
-    - [@Qiaogun](https://github.com/Qiaogun)
-- Spanish
-    - [@David Alonso](https://github.com/lpdavidgc)
-- Chinese(Traditional)
-    - [@lm902](https://github.com/lm902)
-    - [@孟武尼德霍格龍](https://github.com/tony8077616)
-- Cantonese (Simp./Trad.) (Remember: these translations are only available when the locale is set/fallbacked to 粵語（香港）or 粤语（中华人民共和国） )
-    - [@ous50](https://github.com/ous50)
-
-This APP uses the following public DNS service:
-
-- [1.1.1.1](https://1.1.1.1/)
-
-And finally, [sm.ms](https://sm.ms) for hosting images used in this page.
-
-## Buy me a cup of coffee to help maintain this project further?
-
-- [via Github](https://get.telegram-sms.com/donate/github)
-
-Your donation will make me work better for this project.
-
-## Contributors
-<a href="https://github.com/telegram-sms/telegram-sms/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=telegram-sms/telegram-sms" alt="Contributors" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
-
-Made with ❤ in Palo Alto
+Bale-SMS is an independent adaptation of [Telegram-SMS](https://github.com/telegram-sms/telegram-sms) for the Bale Bot API. The original attribution and [BSD 3-Clause license](LICENSE) are retained.

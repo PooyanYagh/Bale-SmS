@@ -30,6 +30,8 @@ fun getGitBranch(): String {
 
 // Get the branch name before configuring Android, so we can use it directly later.
 val currentBranch = getGitBranch()
+val releaseKeystorePath = System.getenv("RELEASE_KEYSTORE_PATH") ?: "keys.jks"
+val releaseKeystoreFile = file(releaseKeystorePath)
 
 plugins {
     id("com.android.application")
@@ -43,7 +45,7 @@ android {
         minSdk = 23
         targetSdk = 36
         versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 1
-        versionName = System.getenv("VERSION_NAME") ?: "Debug"
+        versionName = System.getenv("VERSION_NAME") ?: "1.0.0"
     }
     
 /*    androidResources {
@@ -62,9 +64,8 @@ android {
 
     signingConfigs {
         register("release") {
-            val keystoreFile = file("keys.jks")
-            if (keystoreFile.exists()) {
-                storeFile = keystoreFile
+            if (releaseKeystoreFile.exists()) {
+                storeFile = releaseKeystoreFile
                 storePassword = if (project.hasProperty("KEYSTORE_PASS")) project.property("KEYSTORE_PASS") as String else System.getenv("KEYSTORE_PASS")
                 keyAlias = if (project.hasProperty("ALIAS_NAME")) project.property("ALIAS_NAME") as String else System.getenv("ALIAS_NAME")
                 keyPassword = if (project.hasProperty("ALIAS_PASS")) project.property("ALIAS_PASS") as String else System.getenv("ALIAS_PASS")
@@ -83,7 +84,7 @@ android {
             }
 
             // Only apply signing config if keystore exists
-            if (file("keys.jks").exists()) {
+            if (releaseKeystoreFile.exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
             ndk {
